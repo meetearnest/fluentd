@@ -20,6 +20,8 @@ RUN cd /usr/local/bin \
 ADD ./bin    /app/bin
 ADD ./config /app/config
 
+ADD config/fluentd-custom.tmpl /app/config/fluentd.tmpl
+
 WORKDIR /app
 
 ENV ES_HOST localhost

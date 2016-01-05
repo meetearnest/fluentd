@@ -6,9 +6,7 @@ RUN apt-get update \
     && apt-get install -y curl libcurl4-openssl-dev ruby ruby-dev make
 
 # install fluentd with plugins
-RUN gem install fluentd --no-ri --no-rdoc \
-    && fluent-gem install fluent-plugin-elasticsearch \
-    fluent-plugin-record-modifier fluent-plugin-exclude-filter \
+RUN gem install fluentd fluent-plugin-elasticsearch --no-ri --no-rdoc \
     && mkdir /etc/fluentd/
 
 # install docker-gen
@@ -19,8 +17,6 @@ RUN cd /usr/local/bin \
 # add startup scripts and config files
 ADD ./bin    /app/bin
 ADD ./config /app/config
-
-ADD config/fluentd-custom.tmpl /app/config/fluentd.tmpl
 
 WORKDIR /app
 

@@ -1,0 +1,30 @@
+## config file used for fleetctl
+[Unit]
+Description=Ship container logs to elasticsearch. 
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=10m
+User=core
+EnvironmentFile=/etc/sysconfig/aws_credentials
+
+ExecStartPre=-/usr/bin/docker kill fluentd
+ExecStartPre=-/usr/bin/docker rm fluentd
+ExecStartPre=/usr/bin/docker pull earnest/fluentd:latest
+
+ExecStart=/usr/bin/docker run --name fluentd \
+  -e AWS_REGION=${AWS_REGION} \
+  -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  -v /var/lib/docker:/var/lib/docker \
+  -v /var/run/docker.sock:/tmp/docker.sock \
+  earnest/fluentd
+
+ExecStop=/usr/bin/docker stop -t 30 fluentd
+
+[Install]
+WantedBy=multi-user.target
+
+[X-Fleet]
+Global=true

@@ -7,8 +7,17 @@
   path /var/lib/docker/containers/*/*-json.log
   pos_file /var/lib/docker/containers/containers.log.pos
   time_format %Y-%m-%dT%H:%M:%S
-  tag docker.container.*
+  tag raw.docker.container.*
 </source>
+
+<match raw.docker.container.**>
+    type burrow
+    key_name log
+    keep_time true
+    time_format %Y-%m-%dT%H:%M:%S
+    remove_prefix raw
+    format json
+</match>
 
 <match docker.container.**>
    type elasticsearch
@@ -23,3 +32,4 @@
    # Disable the limit on the number of retries (retry forever).
    disable_retry_limit
 </match>
+

@@ -1,5 +1,17 @@
 # Docker fluentd
 
+## servers require the following files to deploy with fleetctl
+```
+/etc/sysconfig/aws_credentials
+/home/core/.docker/config.json
+```
+
+## to deploy using Fleet, the FLEETCTL_TUNNEL must be set locally.
+```
+export FLEETCLT_TUNNEL=<ip_of_1_server_in_cluster>
+```
+
+
 Docker image with:
 
 - [docker-gen](https://github.com/jwilder/docker-gen)

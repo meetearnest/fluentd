@@ -15,7 +15,7 @@
 <match docker.container.** >
   type cloudwatch_logs
   log_group_name kubernetes
-  log_stream_name containers
+  log_stream_name "#{ENV['HOSTNAME']}"
   auto_create_stream true
   include_time_key true
 </match>
